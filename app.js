@@ -9,6 +9,8 @@ var mongoose = require('mongoose');
 var mongoDB = 'mongodb://garvitkhamesra:mongodatabase@ds239047.mlab.com:39047/ecommerce-project';
 var MongoStore = require('connect-mongo')(session);
 
+var port = process.env.PORT || 4000;
+
 var index = require('./routes/index');
 
 var app = express();
@@ -60,4 +62,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.listen(port, function () {
+  console.log(port);
+});
 module.exports = app;
