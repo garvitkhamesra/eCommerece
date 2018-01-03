@@ -45,19 +45,6 @@ var SellerLoginSchema = new Schema(
   }
 );
 
-//Hasing Password before saving
 
 //Export model
-const SellerLogin = module.exports = mongoose.model('SellerLogin', SellerLoginSchema);
-module.exports.save = function (NewSeller, callback) {
-  SellerLoginSchema.pre('save', function (next) {
-    console.log(NewSeller);
-    bcrypt.hash(NewSeller.Password, 10, function (error, hash) {
-      if (error) {
-        return next(error);
-      }
-      NewSeller.Password = hash;
-      next();
-    });
-  });
-}
+module.exports = mongoose.model('SellerLogin', SellerLoginSchema);

@@ -12,7 +12,7 @@ html
 					a#register signup
 				.mainBody
 					#loginDiv.loginBody
-						form.loginForm(action='/', method='post')
+						form.loginForm(action='/LoginSeller', method='post')
 							input(type='text', name='EmailLogin', placeholder='E-Mail', required='')
 							input(type='password', name='PasswordLogin', placeholder='Password', required='')
 							br
@@ -27,5 +27,8 @@ html
 							button(name='button') Register
 				ul
 					for val in errors
-						li= val.msg
+						if typeof(val) == 'object'
+							li= val.msg
+						else
+							li= val
 		script(src='./javascript/login.js')
