@@ -1,0 +1,32 @@
+{
+  "name": "ecommerece",
+  "version": "1.0.0",
+  "description": "A shopping website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www"
+  },
+  "author": "garvitkhamesra",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcrypt": "^1.0.3",
+    "body-parser": "~1.18.2",
+    "compression": "^1.7.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-validator": "^4.3.0",
+    "helmet": "^3.9.0",
+    "moment": "^2.19.3",
+    "mongoose": "^4.13.6",
+    "morgan": "~1.9.0",
+    "pug": "~2.0.0-beta11",
+    "serve-favicon": "~2.4.5",
+    "validator": "^9.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.5"
+  }
+}

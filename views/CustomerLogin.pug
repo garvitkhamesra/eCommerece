@@ -1,0 +1,27 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title Login and Sign Up
+		link(rel='stylesheet', href='./css/login.css')
+	body
+		center
+			.main
+				.mainHeader
+					a#login login
+					a#register signup
+				.mainBody
+					#loginDiv.loginBody
+						form.loginForm(action='/', method='post')
+							input(type='text', name='emailLogin', placeholder='E-Mail', required='')
+							input(type='password', name='passwordLogin', placeholder='Password', required='')
+							br
+							button(name='button') Login
+					#registrationDiv.registerBody
+						form.registerForm(action='/', method='post')
+							input(type='text', name='emailRegister', placeholder='E-Mail', required='')
+							input(type='text', name='number', placeholder='7894561230', required='')
+							input(type='password', name='passwordRegister', placeholder='Password', required='')
+							br
+							button(name='button') Register
+		script(src='./javascript/login.js')
