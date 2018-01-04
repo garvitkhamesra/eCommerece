@@ -3,37 +3,59 @@
   <head>
     <meta charset="utf-8">
     <title>Seller Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="./public/javascript/SellerIndex.js"></script>
+    <link rel="stylesheet" href="./public/css/SellerIndex.css">
   </head>
   <body>
-    <nav class="nav-extended">
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Logo</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="sass.html">Sass</a></li>
-          <li><a href="badges.html">Components</a></li>
-          <li><a href="collapsible.html">JavaScript</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-demo">
-          <li><a href="sass.html">Sass</a></li>
-          <li><a href="badges.html">Components</a></li>
-          <li><a href="collapsible.html">JavaScript</a></li>
-        </ul>
+    <header>
+      <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">E-Commerece</a>
+        <a class="nav-link" href="#">Logout</a>
+      </nav>
+    </header>
+
+    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="OrdersListTab" data-toggle="tab" href="#orders" role="tab" aria-selected="true">List of Orders</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="ProductsListTab" data-toggle="tab" href="#products" role="tab" aria-selected="false">Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="BusinessDetailTab" data-toggle="tab" href="#BusinessDetail" role="tab" aria-selected="false">Business Details</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="orders" role="tabpanel" aria-labelledby="home-tab">
+
       </div>
-      <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-          <li class="tab"><a href="#test1">Test 1</a></li>
-          <li class="tab"><a class="active" href="#test2">Test 2</a></li>
-          <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
-          <li class="tab"><a href="#test4">Test 4</a></li>
-        </ul>
+      <div class="tab-pane" id="products" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
+          <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+              <a class="list-group-item list-group-item-action active" id="list-product-list" data-toggle="list" href="#AddProduct" role="tab">Add product</a>
+              <a class="list-group-item list-group-item-action" id="add-product" data-toggle="list" href="#ProductList" role="tab">Products List</a>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="ProductList" role="tabpanel" aria-labelledby="list-home-list">
+                
+              </div>
+              <div class="tab-pane fade" id="AddProduct" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </nav>
-    <div id="test1" class="col s12">Test 1</div>
-    <div id="test2" class="col s12">Test 2</div>
-    <div id="test3" class="col s12">Test 3</div>
-    <div id="test4" class="col s12">Test 4</div>
+      <div class="tab-pane" id="Bus" role="tabpanel" aria-labelledby="messages-tab">
+
+      </div>
+    </div>
+
   </body>
 </html>

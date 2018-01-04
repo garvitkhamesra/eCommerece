@@ -46,9 +46,6 @@ var ItemsSchema = new Schema(
     Description: {
       type: String,
       required: [true, 'tell something about product']
-    },
-    Specifications: {
-      type: String,
     }
   }
 );
