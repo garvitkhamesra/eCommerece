@@ -1,6 +1,9 @@
-.nav{
+.nav {
   margin: 1%;
 }
-.tab-content{
+.tab-content {
   margin: 2%;
+}
+#itemIcon {
+  border-radius: 50%;
 }

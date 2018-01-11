@@ -8,10 +8,6 @@ var ItemsSchema = new Schema(
       type: String,
       required: [true, 'Id required'],
     },
-    ItemId: {
-      type: String,
-      required: [true, 'Id required'],
-    },
     ItemName: {
       type: String,
       required: [true, 'Item name required']
@@ -29,7 +25,7 @@ var ItemsSchema = new Schema(
       required: [true, 'Amount required']
     },
     AvailablityStatus: {
-      type: String,
+      type: Boolean,
       required: [true, 'Status required']
     },
     Stock: {
@@ -40,12 +36,13 @@ var ItemsSchema = new Schema(
       type: String,
       required: [true, 'category required']
     },
-    SubCategory: {
-      type: String
-    },
     Description: {
       type: String,
       required: [true, 'tell something about product']
+    },
+    Image: {
+      type: String,
+      required: [true, 'product image is required']
     }
   }
 );

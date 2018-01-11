@@ -1,0 +1,76 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Seller Portal
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous")
+    script(src="./javascript/SellerIndex.js")
+    link(rel="stylesheet" href="./css/SellerIndex.css")
+  body
+    header
+      nav.navbar.navbar-light.bg-light.justify-content-between
+        a.navbar-brand E-Commerece
+        a.nav-link(href="#") Logout
+    ul#myTab.nav.nav-tabs.nav-justified(role="tablist")
+      li.nav-item
+        a#OrdersListTab.nav-link.active(data-toggle="tab" href="#orders" role="tab" aria-selected="true") List of Orders
+      li.nav-item
+        a#ProductsListTab.nav-link(data-toggle="tab" href="#products" role="tab" aria-selected="false") Products
+      li.nav-item
+        a#BusinessDetailTab.nav-link(data-toggle="tab" href="#BusinessDetail" role="tab" aria-selected="false") Business Details
+    .tab-content
+      #orders.tab-pane.active(role="tabpanel" aria-labelledby="home-tab")
+      #products.tab-pane(role="tabpanel" aria-labelledby="profile-tab")
+        .row
+          .col-4
+            #list-tab.list-group(role="tablist")
+              a#add-product.list-group-item.list-group-item-action.active(data-toggle="list" href="#ProductList" role="tab")
+                p Products List
+              a#list-product-list.list-group-item.list-group-item-action(data-toggle="list" href="#AddProduct" role="tab")
+                p Add product
+          .col-8
+            #nav-tabContent.tab-content
+              #ProductList.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="list-home-list")
+                ul
+                  for val in items
+                    img(id='itemIcon' src= val.Image width='15%' height='15%')
+                    br
+              #AddProduct.tab-pane(role="tabpanel" aria-labelledby="list-profile-list")
+                form(method="post" action="/addProduct" enctype="multipart/form-data")
+                  .form-row
+                    .form-group.col-md-12
+                      label(for="itemName") Item Name
+                      input.form-control(type="text" name="itemName" placeholder="Item Name")
+                    .form-group.col-md-12
+                      label(for="modelName") Model Name
+                      input.form-control(type="text" name="modelName" placeholder="Model Number")
+                    .form-group.col-md-12
+                      label(for="brandName") Brand Name
+                      input.form-control(type="text" name="brandName" placeholder="Brand Name")
+                    .form-group.col-md-6
+                      label(for="amount") Amount
+                      input.form-control(type="number" name="amount" placeholder="Enter amount for e.g. 200")
+                    .form-group.col-md-6
+                      label(for="stock") Stock
+                      input.form-control(type="number" name="stock" placeholder="Enter stock for e.g. 10")
+                    .form-group.col-md-12
+                      label(for="inputCategory") Category
+                      select.form-control(name="inputCategory")
+                        option(selected="") Choose...
+                        option(value="clothes") Clothes
+                        option(value="electronics") Electronics
+                        option(value="household") Household
+                    .form-group.col-md-12
+                      label(for="description") Description
+                      textarea.form-control(rows="5" name="description")
+                    .form-group.col-md-12
+                      input#upload.file(name="upload" type="file")
+                  button.btn.btn-primary(type="submit") Submit
+                ul
+                  if errors
+                    for val in errors
+                      li= val.msg  
+      #Bus.tab-pane(role="tabpanel" aria-labelledby="messages-tab")

@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://garvitkhamesra:mongodatabase@ds239047.mlab.com:39047/ecommerce-project';
 var MongoStore = require('connect-mongo')(session);
+const fileUpload = require('express-fileupload');
 
 var index = require('./routes/index');
 
@@ -32,6 +33,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public','itemsImages')));
+
 app.use(session({
   secret: 'work hard',
   resave: true,
@@ -40,7 +43,7 @@ app.use(session({
     mongooseConnection: db
   })
 }));
-
+app.use(fileUpload());
 app.use('/', index);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,5 +62,4 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;

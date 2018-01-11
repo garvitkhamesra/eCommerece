@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var session = require('express-session');
 var mongoDB = 'mongodb://garvitkhamesra:mongodatabase@ds239047.mlab.com:39047/ecommerce-project';
-
+var busboy = require('connect-busboy');
 var BankDetail = require('../models/BankDetail');
 var BusinessDetail = require('../models/BusinessDetail');
 var CustomerLogin = require('../models/CustomerLoginDetails');
@@ -16,6 +16,9 @@ var MyBag = require('../models/MyBag');
 var Order = require('../models/Order');
 var SellerLoginSchema = require('../models/SellerLoginDetail');
 var Transaction = require('../models/Transactions');
+var fs = require('fs');
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 mongoose.connect(mongoDB, {
   useMongoClient: true
@@ -26,20 +29,30 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('SellerLogin', { title: 'Express', errors: []});
+  res.render('index', { title: 'Express', errors: []});
 });
+//
+// router.get('/addProduct', checkSignIn, function(req, res, next) {
+//   res.redirect('SellerIndex');
+// });
 
 router.get('/SellerLogin', function(req, res, next) {
   res.render('SellerLogin', { title: 'Express', errors: []});
 });
 
-router.get('/SellerIndex', checkSignIn,function(req, res, next) {
-  res.render('SellerIndex', { title: 'Express'});
+router.get('/SellerIndex', checkSignIn, function(req, res, next) {
+  Items.find({SellerId: req.session.email}, function(error, docs) {
+    if (error) {
+      error = "Not Loaded";
+    }
+
+    res.render('SellerIndex', { title: 'Express', errors: error, items: docs});
+  });
 });
 
-function checkSignIn(req, res){
+function checkSignIn(req, res, next){
    if (req.session.email) {
-     return res.render('SellerIndex', { title: 'Express'});
+     next();
    }
    else {
      var err = [];
@@ -97,7 +110,7 @@ router.post('/SellerLogin', [
                       console.log(error);
                     }
                     else {
-                      req.session.email = "SellerLogin.Email";
+                      req.session.email = req.body.EmailRegister;
                       res.redirect('SellerIndex');
                     }
                   });
@@ -139,7 +152,7 @@ router.post('/LoginSeller', [
               }
               bcrypt.compare(req.body.PasswordLogin, user.Password, function (err, result) {
                 if (result === true) {
-                  req.session.email = "req.body.EmailLogin";
+                  req.session.email = req.body.EmailLogin;
                   return res.redirect('SellerIndex');
                 }
                 else {
@@ -150,5 +163,84 @@ router.post('/LoginSeller', [
             });
         }
     }
+]);
+
+router.post('/addProduct',[
+  body('itemName', 'item name is required').isLength({ min: 1 }).trim(),
+  body('modelName', 'model name required').isLength({ min: 1 }).trim(),
+  body('brandName', 'brand name is required').isLength({ min: 1 }).trim(),
+  body('amount', 'amount of product is required').isLength({ min: 1 }).trim(),
+  body('stock', 'stock value is required').isLength({ min: 1 }).trim(),
+  body('inputCategory', 'Select a category').isLength({ min: 1 }).trim(),
+  body('description', 'product description is required').isLength({ min: 1 }).trim(),
+
+  body('modelName', 'model name required').isAlphanumeric(),
+  body('itemName', 'item name is required').isAlpha(),
+  body('brandName', 'brand name is required').isAlpha(),
+  body('amount', 'amount of product is required').isNumeric(),
+  body('stock', 'stock value is required').isNumeric(),
+
+  // Sanitize (trim and escape) the fields.
+  sanitizeBody('itemName').trim().escape(),
+  sanitizeBody('brandName').trim().escape(),
+  sanitizeBody('modelName').trim().escape(),
+  sanitizeBody('description').trim().escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+      // Extract the validation errors from a request.
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+          // There are errors. Render the form again with sanitized values/error messages
+          Items.find({SellerId: req.session.email}, function(error, docs) {
+            if (error) {
+              error = "Not Loaded";
+            }
+            errors.array().push(error);
+            return res.render('SellerIndex', { title: 'Registeration', errors: errors.array(), items: docs});
+          });
+      }
+      else {
+          // Data from form is valid.
+          var available = false;
+          if(req.body.stock > 0){
+            available = true;
+          }
+          var uploader = req.files.upload;
+          var name = uploader.name.split('.');
+          var length = uploader.name.split('.').length;
+          var extension = name[length-1];
+          var url = req.session.email+req.body.itemName+"."+extension;
+          uploader.mv(__dirname + "/../public/itemsImages/" + url, function(error) {
+            if (error) {
+              console.log(error);
+              return false;
+            }
+          });
+
+          var Item = new Items(
+            {
+              ItemName: req.body.itemName,
+              ModelName: req.body.modelName,
+              BrandName: req.body.brandName,
+              Amount: req.body.amount,
+              Stock: req.body.stock,
+              Category: req.body.inputCategory,
+              Description: req.body.description,
+              Image: url,
+              SellerId: req.session.email,
+              AvailablityStatus: available
+            }
+          );
+
+          Item.save(function(error) {
+            if (error) {
+              console.log(error);
+            }
+            res.redirect('SellerIndex');
+          });
+      }
+  }
 ]);
 module.exports = router;

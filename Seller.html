@@ -38,16 +38,58 @@
         <div class="row">
           <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
-              <a class="list-group-item list-group-item-action active" id="list-product-list" data-toggle="list" href="#AddProduct" role="tab">Add product</a>
-              <a class="list-group-item list-group-item-action" id="add-product" data-toggle="list" href="#ProductList" role="tab">Products List</a>
+              <a class="list-group-item list-group-item-action active" id="add-product" data-toggle="list" href="#ProductList" role="tab"><p>Products List</p></a>
+              <a class="list-group-item list-group-item-action" id="list-product-list" data-toggle="list" href="#AddProduct" role="tab"><p>Add product</p></a>
             </div>
           </div>
           <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
               <div class="tab-pane fade show active" id="ProductList" role="tabpanel" aria-labelledby="list-home-list">
-                
+sdgs
               </div>
-              <div class="tab-pane fade" id="AddProduct" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+              <div class="tab-pane" id="AddProduct" role="tabpanel" aria-labelledby="list-profile-list">
+                <form method="post" action="/addProduct">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="itemName">Item Name</label>
+                      <input type="text" class="form-control" name="itemName" placeholder="Item Name">
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="modelName">Model Name</label>
+                      <input type="text" class="form-control" name="modelName" placeholder="Model Number">
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="brandName">Brand Name</label>
+                      <input type="text" class="form-control" name="brandName" placeholder="Brand Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="amount">Amount</label>
+                      <input type="number" class="form-control" name="amount" placeholder="Enter amount for e.g. 200">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="stock">Stock</label>
+                      <input type="number" class="form-control" name="stock" placeholder="Enter stock for e.g. 10">
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="inputCategory">Category</label>
+                      <select name="inputCategory" class="form-control">
+                        <option selected>Choose...</option>
+                        <option value="clothes">Clothes</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="household">Household</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="description">Description</label>
+                      <textarea class="form-control" rows="5" name="description"></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <input id="upload" name="upload" type="file" class="file">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
