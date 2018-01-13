@@ -8,19 +8,22 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous")
     script(src="./javascript/SellerIndex.js")
+    script(src="https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
     link(rel="stylesheet" href="./css/SellerIndex.css")
+    link(rel="stylesheet" href="./font-awesome/css/font-awesome.css")
   body
     header
       nav.navbar.navbar-light.bg-light.justify-content-between
         a.navbar-brand E-Commerece
-        a.nav-link(href="#") Logout
+        a.nav-link(href="/logout") Logout
     ul#myTab.nav.nav-tabs.nav-justified(role="tablist")
       li.nav-item
         a#OrdersListTab.nav-link.active(data-toggle="tab" href="#orders" role="tab" aria-selected="true") List of Orders
       li.nav-item
         a#ProductsListTab.nav-link(data-toggle="tab" href="#products" role="tab" aria-selected="false") Products
-      li.nav-item
-        a#BusinessDetailTab.nav-link(data-toggle="tab" href="#BusinessDetail" role="tab" aria-selected="false") Business Details
+      //- li.nav-item
+      //-   a#BusinessDetailTab.nav-link(data-toggle="tab" href="#BusinessDetail" role="tab" aria-selected="false") Business Details
     .tab-content
       #orders.tab-pane.active(role="tabpanel" aria-labelledby="home-tab")
       #products.tab-pane(role="tabpanel" aria-labelledby="profile-tab")
@@ -36,41 +39,108 @@ html
               #ProductList.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="list-home-list")
                 ul
                   for val in items
-                    img(id='itemIcon' src= val.Image width='15%' height='15%')
                     br
+                    #itemCard.col-md-12.container
+                      div.row
+                        div.col-md-4
+                          img(id='itemIcon' src= val.Image width='100%' height='50%')
+                        div.col-md-6.datatag
+                          div
+                            p= val.ItemName
+                            p= val.BrandName
+                            p.modelName= val.ModelName  
+                            p= val.Description
+                            p= val.Amount
+                            p.stock= val.Stock
+                        div.col-md-2
+                          .container
+                            br
+                            br
+                            a(id= val._id+" edit" data-toggle="modal" data-target="#exampleModal" data-item= val onclick = "editModal(this)")
+                              i.fa.fa-pencil-square-o.fa-2x(style="color:orange;" aria-hidden="true")
+                            br
+                            br
+                            a(id= val._id+ " delete" data-item= val onclick = "deleteModal(this)")
+                              i.fa.fa-trash-o.fa-2x.text-error(style="color:red;" aria-hidden="true")
+                  
+                  #exampleModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+                    .modal-dialog.modal-lg(role="document")
+                      .modal-content
+                        .modal-header
+                          h5#exampleModalLabel.modal-title
+                          button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                        .modal-body
+                          form#editForm
+                            .form-row
+                              .form-group.col-md-12
+                                label(for="itemName") Item Name
+                                input#itenName.form-control(type="text" name="itemName" required)
+                              .form-group.col-md-12
+                                label(for="modelName") Model Name
+                                input#modelName.form-control(type="text" name="modelName" required)
+                              .form-group.col-md-12
+                                label(for="brandName") Brand Name
+                                input#brandName.form-control(type="text" name="brandName" required)
+                              .form-group.col-md-6
+                                label(for="amount") Amount
+                                input#amount.form-control(type="number" name="amount" required)
+                              .form-group.col-md-6
+                                label(for="stock") Stock
+                                input#stock.form-control(type="number" name="stock" required)
+                              .form-group.col-md-12
+                                label(for="inputCategory") Category
+                                select#category.form-control(required name="inputCategory")
+                                  option(value="") Choose...
+                                  option(value="clothes") Clothes
+                                  option(value="electronics") Electronics
+                                  option(value="household") Household
+                              .form-group.col-md-12
+                                label(for="description") Description
+                                textarea#description.form-control(rows="5" name="description" required)
+                              .form-group.col-md-12
+                                img(id='itemIconEdit' width='100%' height='50%')
+                                input#upload.file(name="upload" type="file" required)
+                            .modal-footer
+                              button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                              button#editButton.btn.btn-primary(type="submit" data-id="") Save
+        
               #AddProduct.tab-pane(role="tabpanel" aria-labelledby="list-profile-list")
+                ul
+                  if errors
+                    for val in errors
+                      .alert.alert-danger.alert-dismissible.fade.show(role="alert")
+                        li= val.msg
+                        button.close(type="button" data-dismiss="alert" aria-label="Close")
+                          span(aria-hidden="true") ×
                 form(method="post" action="/addProduct" enctype="multipart/form-data")
                   .form-row
                     .form-group.col-md-12
                       label(for="itemName") Item Name
-                      input.form-control(type="text" name="itemName" placeholder="Item Name")
+                      input.form-control(type="text" name="itemName" placeholder="Item Name" required)
                     .form-group.col-md-12
                       label(for="modelName") Model Name
-                      input.form-control(type="text" name="modelName" placeholder="Model Number")
+                      input.form-control(type="text" name="modelName" placeholder="Model Number" required)
                     .form-group.col-md-12
                       label(for="brandName") Brand Name
-                      input.form-control(type="text" name="brandName" placeholder="Brand Name")
+                      input.form-control(type="text" name="brandName" placeholder="Brand Name" required)
                     .form-group.col-md-6
                       label(for="amount") Amount
-                      input.form-control(type="number" name="amount" placeholder="Enter amount for e.g. 200")
+                      input.form-control(type="number" name="amount" placeholder="Enter amount for e.g. 200" required)
                     .form-group.col-md-6
                       label(for="stock") Stock
-                      input.form-control(type="number" name="stock" placeholder="Enter stock for e.g. 10")
+                      input.form-control(type="number" name="stock" placeholder="Enter stock for e.g. 10" required)
                     .form-group.col-md-12
                       label(for="inputCategory") Category
-                      select.form-control(name="inputCategory")
-                        option(selected="") Choose...
+                      select.form-control(name="inputCategory" required)
+                        option() Choose...
                         option(value="clothes") Clothes
                         option(value="electronics") Electronics
                         option(value="household") Household
                     .form-group.col-md-12
                       label(for="description") Description
-                      textarea.form-control(rows="5" name="description")
+                      textarea.form-control(rows="5" name="description" required)
                     .form-group.col-md-12
-                      input#upload.file(name="upload" type="file")
+                      input#upload.file(name="upload" type="file" required)
                   button.btn.btn-primary(type="submit") Submit
-                ul
-                  if errors
-                    for val in errors
-                      li= val.msg  
       #Bus.tab-pane(role="tabpanel" aria-labelledby="messages-tab")

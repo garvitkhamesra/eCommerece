@@ -4,6 +4,38 @@
 .tab-content {
   margin: 2%;
 }
-#itemIcon {
-  border-radius: 50%;
+ul {
+  list-style: none;
+}
+img {
+  margin-right: 30px;
+  padding: 10px;
+  border-radius: 2%
+}
+.dataTag {
+  color: grey;
+}
+#dataTag {
+  height: 20%;
+}
+#itemCard {
+  box-shadow: 2px 2px 2px grey;
+  border: 1px solid grey;
+  padding: 3px;
+  border-radius: 1%;
+  margin: 5px;
+}
+label {
+  font-size: 1.2em;
+}
+p {
+  font-size: 24Px;
+}
+.stock {
+  font-size: 18px;
+  color: grey;
+}
+.modelName {
+  font-size: 18px;
+  color: grey;
 }

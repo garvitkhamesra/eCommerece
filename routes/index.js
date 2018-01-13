@@ -174,11 +174,11 @@ router.post('/addProduct',[
   body('inputCategory', 'Select a category').isLength({ min: 1 }).trim(),
   body('description', 'product description is required').isLength({ min: 1 }).trim(),
 
-  body('modelName', 'model name required').isAlphanumeric(),
-  body('itemName', 'item name is required').isAlpha(),
-  body('brandName', 'brand name is required').isAlpha(),
-  body('amount', 'amount of product is required').isNumeric(),
-  body('stock', 'stock value is required').isNumeric(),
+  body('modelName', 'model name should be Alphanumeric').isAlphanumeric(),
+  body('itemName', 'item name should be only letters').isAlpha(),
+  body('brandName', 'brand name should be only letters').isAlpha(),
+  body('amount', 'amount should be a number').isNumeric(),
+  body('stock', 'stock should be a number').isNumeric(),
 
   // Sanitize (trim and escape) the fields.
   sanitizeBody('itemName').trim().escape(),
@@ -243,4 +243,51 @@ router.post('/addProduct',[
       }
   }
 ]);
+
+router.put('/editProduct/:id',(req,res,next) => {
+  var available = false;
+  if(req.body.stock > 0){
+    available = true;
+  }
+  var uploader = req.files.upload;
+  var name = uploader.name.split('.');
+  var length = uploader.name.split('.').length;
+  var extension = name[length-1];
+  var url = req.session.email+req.body.itemName+"."+extension;
+  uploader.mv(__dirname + "/../public/itemsImages/" + url, function(error) {
+    if (error) {
+      console.log(error);
+      return false;
+    }
+  });
+  var query = {
+    ItemName: req.body.itemName,
+    ModelName: req.body.modelName,
+    BrandName: req.body.brandName,
+    Amount: req.body.amount,
+    Stock: req.body.stock,
+    Category: req.body.inputCategory,
+    Description: req.body.description,
+    Image: url,
+    SellerId: req.session.email,
+    AvailablityStatus: available
+  };
+  Items.findByIdAndUpdate(req.params.id, { $set: query }, { new: true }, function (err, doc) {
+    if (err) return handleError(err);
+    res.send(doc);
+  });
+});
+
+router.get('/logout', (req, res, next) => {
+  req.session.destroy();
+  res.render('SellerLogin', { title: 'Express', errors: []});
+});
+
+router.delete('/deleteProduct/:id',(req,res,next) => {
+  Items.remove({ _id: req.params.id }, function (err) {
+  if (err) return handleError(err);
+    res.send(req.params.id);
+  });
+});
+
 module.exports = router;
